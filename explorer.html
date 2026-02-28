@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Issues - Civic Fixit</title>
+<link rel="stylesheet" href="explorer.css">
+</head>
+<body>
+<header>
+  <h1>Civic Fixit</h1>
+  <nav><a href="hi.html">Home</a></nav>
+</header>
+
+<div class="container">
+  <button class="backBtn" onclick="window.location='hi.html'">&larr; Back to Home</button>
+  <h2>Nearby Issues</h2>
+  <div id="issuesList"></div>
+</div>
+
+<div id="imageModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span id="closeImageModal" class="close">&times;</span>
+    <img id="issueImage" src="" alt="Issue Image" style="max-width:90vw; max-height:90vh; border-radius:8px;">
+  </div>
+</div>
+
+
+
+
+<script src="explorer.js"></script>
+</body>
+</html>

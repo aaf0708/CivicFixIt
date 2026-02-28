@@ -1,0 +1,23 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Roboto, sans-serif; }
+body { background:#f9f9f9; color:#333; }
+.container { max-width:900px; margin:auto; padding:20px; }
+h2 { margin-bottom:20px; }
+.backBtn { padding:8px 16px; border:none; border-radius:6px; background:#0072ff; color:#fff; cursor:pointer; margin-bottom:20px; }
+.backBtn:hover { background:#005bb5; }
+.track-form { display:flex; gap:10px; margin-bottom:20px; }
+.track-form input { flex:1; padding:8px; border-radius:6px; border:1px solid #ccc; }
+.track-form button { padding:8px 16px; border:none; border-radius:6px; background:#0072ff; color:#fff; cursor:pointer; }
+.track-form button:hover { background:#005bb5; }
+
+.issue-card { background:#fff; padding:15px 20px; margin-bottom:15px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); display:flex; align-items:center; gap:15px; }
+.issue-card img.thumbnail { width:80px; height:80px; object-fit:cover; border-radius:8px; cursor:pointer; }
+.issue-info { flex:1; }
+.issue-category { font-weight:600; color:#0072ff; display:flex; justify-content:space-between; align-items:center; }
+.issue-desc { margin:5px 0; }
+.issue-status { font-size:0.9rem; color:#555; }
+.verifyBtn { font-size:0.8rem; padding:4px 8px; border:none; border-radius:6px; background:#28a745; color:#fff; cursor:pointer; }
+
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000; }
+.modal-content { background:#fff; padding:10px; border-radius:8px; max-width:90%; max-height:90%; position:relative; }
+.modal-content img { width:100%; height:auto; border-radius:8px; }
+.modal-content .close { position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#333; }

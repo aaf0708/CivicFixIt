@@ -1,0 +1,279 @@
+* {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, sans-serif;
+    }
+
+    body, html {
+      height: 100%; width: 100%;
+    }
+
+        .background {
+      position: relative;
+      background-image: url('A Coastal Town in Japan – Anime Vibes.jpeg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+      width: 100%;
+    }
+    .overlay {
+      position: absolute; top: 0; left: 0;
+      height: 100%; width: 100%;
+      background: rgba(0,0,0,0.55);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      padding: 20px 50px;
+      color: #fff;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      position: absolute;
+      top: 20px; right: 50px;
+      display: flex; gap: 25px;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #00c6ff; }
+
+    /* Quote + Buttons */
+    .quote-section {
+      text-align: center; color: #fff; padding: 20px;
+    }
+    .quote-section h1 {
+      font-size: 2.5rem; margin-bottom: 30px;
+      font-weight: 600; line-height: 1.3;
+    }
+    .button-group {
+      display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+    }
+    .button-group button {
+      padding: 14px 28px; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 30px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white; cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .button-group button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center; color: #bbb;
+      padding: 15px; font-size: 0.9rem;
+    }
+
+    /* === Modal === */
+    .modal {
+      display: none;
+      position: fixed; z-index: 10; left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 5% auto; padding: 20px;
+      border-radius: 12px;
+      width: 90%; max-width: 500px;
+      color: #333;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .close {
+      float: right; font-size: 28px; cursor: pointer;
+      color: #333;
+    }
+    .close:hover { color: red; }
+
+    form label { font-weight: 600; display: block; margin: 10px 0 5px; }
+    form input, form select, form textarea {
+      width: 100%; padding: 8px; margin-bottom: 10px;
+      border: 1px solid #ccc; border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    form button {
+      padding: 10px 20px;
+      border: none; border-radius: 6px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: #fff; font-weight: 600; cursor: pointer;
+    }
+    form button:hover {
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+    }
+    #imagePreview img {
+      margin-top: 10px; border-radius: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .quote-section h1 { font-size: 1.8rem; }
+      .button-group { flex-direction: column; }
+      .button-group button { width: 70%; }
+      .nav-links { top: 60px; right: 20px; gap: 15px; }
+    }
+    /* Admin Modal */
+#adminModal .modal-content {
+  background: #f9f9f9;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 400px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Close button */
+#adminModal .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+#adminModal .close:hover {
+  color: #ff4444;
+}
+
+/* Modal Heading */
+#adminModal h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #222;
+}
+
+/* Input fields */
+#adminModal input[type="text"],
+#adminModal input[type="password"] {
+  width: 90%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+#adminModal input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+  outline: none;
+}
+
+/* Login button */
+#adminModal button {
+  width: 50%;
+  padding: 12px 0;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+#adminModal button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Error Message */
+#adminModal #adminError {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #ff3333;
+  min-height: 18px;
+}
+
+/* For smaller screens */
+@media(max-width: 480px){
+  #adminModal .modal-content {
+    padding: 20px 15px;
+  }
+  #adminModal button {
+    width: 70%;
+  }
+}
+
+
+#aboutModal, #learnModal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#aboutModal .modal-content, #learnModal .modal-content {
+  background: #f9f9f9;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: left;
+  color: #333;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Close button */
+#aboutModal .close, #learnModal .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+#aboutModal .close:hover, #learnModal .close:hover {
+  color: #ff4444;
+}
+
+/* Modal Headings */
+#aboutModal h2, #learnModal h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* Paragraphs */
+#aboutModal p, #learnModal p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+

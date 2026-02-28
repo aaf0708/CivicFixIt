@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Civic Fixit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background">
+    <div class="overlay">
+      <header>
+        <div class="logo">Civic Fixit</div>
+        <nav class="nav-links">
+          <a href="#" id="aboutLink">About</a>
+          <a href="#" id="learnLink">Learn</a>
+                    <a href="dashboard.html" id="heroesLink">Heroes</a>
+
+        </nav>
+      </header>
+
+      <div id="aboutModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeAbout">&times;</span>
+          <h2>About Civic Fixit</h2>
+          <p>
+            Civic Fixit empowers citizens to report civic issues like potholes, garbage, streetlight outages, water problems, and more. Our goal is to help authorities respond faster and keep communities safer and cleaner.
+          </p>
+        </div>
+      </div>
+
+      <div id="learnModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeLearn">&times;</span>
+          <h2>How Civic Issues Affect the Public</h2>
+          <p>
+            Unresolved civic issues can lead to accidents, health hazards, and inconvenience. Timely reporting and resolution of issues help create safer and more livable cities for everyone.
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-section">
+        <h1>"Be the change you want to see in your community"</h1>
+        <div class="button-group">
+          <button id="reportBtn">Report</button>
+          <button id="trackBtn" onclick="window.location.href='track.html'">Track</button>
+          <button id="exploreBtn" onclick="window.location.href='explorer.html'">Explore</button>
+          <button id="openAdminModal">Login as Admin</button>
+        </div>
+      </div>
+
+      <footer>© 2025 Civic Fixit. All rights reserved.</footer>
+    </div>
+  </div>
+
+  <div id="reportModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Report an Issue</h2>
+      <form id="reportForm" autocomplete="off">
+        <label for="imageInput">Capture Image <span style="color:red">*</span></label>
+        <input type="file" accept="image/*" capture="environment" id="imageInput" required>
+        <video id="cameraStream" autoplay playsinline style="display:none;width:100%;max-width:300px;"></video>
+        <canvas id="snapshotCanvas" style="display:none;"></canvas>
+        <button type="button" id="openCamera">Open Camera</button>
+        <button type="button" id="captureBtn" style="display:none;">Capture</button>
+        <div id="imagePreview"></div>
+
+        <label for="desc">Description <span style="color:red">*</span></label>
+        <textarea id="desc" name="desc" rows="3" required placeholder="Describe the issue..."></textarea>
+
+        <label for="category">Category <span style="color:red">*</span></label>
+        <select id="category" name="category" required>
+          <option value="">Select category</option>
+          <option value="Pothole">🕳️ Pothole</option>
+          <option value="Garbage">🗑️ Garbage</option>
+          <option value="Streetlight">💡 Streetlight</option>
+          <option value="Water">🚰 Water</option>
+          <option value="Electricity">⚡ Electricity</option>
+          <option value="Parks/Environment">🌳 Parks/Environment</option>
+          <option value="Traffic/Signals">🚦 Traffic/Signals</option>
+          <option value="Infrastructure">🛠️ Infrastructure</option>
+        </select>
+
+        <label>Location <span style="color:red">*</span></label>
+        <input type="radio" id="autoLoc" name="locType" value="auto" checked>
+        <label for="autoLoc">Detect Automatically</label>
+        <input type="radio" id="manualLoc" name="locType" value="manual">
+        <label for="manualLoc">Enter Manually</label>
+        <input type="text" id="location" name="location" placeholder="Location" required style="display:none;">
+        <div id="autoLocationDisplay" style="font-size:0.9em;color:#555;"></div>
+
+        <button type="submit">Submit Report</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeAdmin">&times;</span>
+      <h2>Admin Login</h2>
+      <input type="text" id="adminUsername" placeholder="Username" required>
+      <input type="password" id="adminPassword" placeholder="Password" required>
+      <button id="adminLoginBtn">Login</button>
+      <p id="adminError" style="color:red;"></p>
+    </div>
+  </div>
+
+  <script>
+    const aboutModal = document.getElementById('aboutModal');
+    const learnModal = document.getElementById('learnModal');
+    const reportModal = document.getElementById('reportModal');
+    const adminModal = document.getElementById('adminModal');
+
+    window.addEventListener('load', () => {
+      aboutModal.style.display = 'none';
+      learnModal.style.display = 'none';
+      reportModal.style.display = 'none';
+      adminModal.style.display = 'none';
+    });
+
+    const reportBtn = document.getElementById('reportBtn');
+    const closeReport = document.getElementById('closeModal');
+    const reportForm = document.getElementById('reportForm');
+    const openCameraBtn = document.getElementById('openCamera');
+    const captureBtn = document.getElementById('captureBtn');
+    const video = document.getElementById('cameraStream');
+    const canvas = document.getElementById('snapshotCanvas');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    let stream = null;
+
+    reportBtn.onclick = () => { reportModal.style.display = 'block'; initAutoLocation(); };
+    closeReport.onclick = () => { reportModal.style.display = 'none'; stopCamera(); resetForm(); };
+
+    openCameraBtn.onclick = async () => {
+      if (navigator.mediaDevices?.getUserMedia) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+          video.style.display = 'block';
+          captureBtn.style.display = 'inline-block';
+          openCameraBtn.style.display = 'none';
+        } catch { alert('Camera access denied or unavailable.'); }
+      } else { alert('Camera not supported.'); }
+    };
+
+    captureBtn.onclick = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      imagePreview.innerHTML = `<img src="${canvas.toDataURL()}" style="max-width:180px;max-height:180px;">`;
+      stopCamera();
+      openCameraBtn.style.display = 'inline-block';
+      captureBtn.style.display = 'none';
+      video.style.display = 'none';
+      imageInput.value = '';
+      imageInput.dataset.captured = 'true';
+      imageInput.required = false;
+    };
+
+    function stopCamera() {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      video.style.display = 'none';
+      captureBtn.style.display = 'none';
+      openCameraBtn.style.display = 'inline-block';
+    }
+
+    imageInput.onchange = e => {
+      if (e.target.files?.[0]) {
+        const reader = new FileReader();
+        reader.onload = ev => { imagePreview.innerHTML = `<img src="${ev.target.result}" style="max-width:180px;max-height:180px;">`; };
+        reader.readAsDataURL(e.target.files[0]);
+        imageInput.dataset.captured = '';
+      }
+    };
+
+    function resetForm() {
+      reportForm.reset();
+      imagePreview.innerHTML = '';
+      imageInput.dataset.captured = '';
+      document.getElementById('location').value = '';
+      document.getElementById('autoLocationDisplay').textContent = '';
+      document.getElementById('location').style.display = 'none';
+      document.getElementById('autoLocationDisplay').style.display = 'block';
+    }
+
+    const autoLoc = document.getElementById('autoLoc');
+    const manualLoc = document.getElementById('manualLoc');
+    const locationInput = document.getElementById('location');
+    const autoLocationDisplay = document.getElementById('autoLocationDisplay');
+
+    function initAutoLocation() {
+      autoLoc.checked = true;
+      manualLoc.checked = false;
+      locationInput.style.display = 'none';
+      autoLocationDisplay.style.display = 'block';
+      getLocation();
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => { 
+            const { latitude, longitude } = pos.coords;
+            autoLocationDisplay.textContent = `Lat: ${latitude.toFixed(5)}, Lon: ${longitude.toFixed(5)}`;
+            locationInput.value = `${latitude},${longitude}`;
+          },
+          () => { autoLocationDisplay.textContent = 'Unable to detect location.'; locationInput.value=''; }
+        );
+      } else { autoLocationDisplay.textContent='Geolocation not supported.'; locationInput.value=''; }
+    }
+
+    autoLoc.onchange = () => { if(autoLoc.checked){ locationInput.style.display='none'; autoLocationDisplay.style.display='block'; getLocation(); } };
+    manualLoc.onchange = () => { if(manualLoc.checked){ locationInput.style.display='block'; autoLocationDisplay.style.display='none'; locationInput.value=''; } };
+
+    reportForm.onsubmit = e => {
+      e.preventDefault();
+      if(!imageInput.value && !imageInput.dataset.captured){ alert('Please provide an image.'); return; }
+      if(autoLoc.checked && !locationInput.value){ alert('Location detection failed. Please enter manually.'); return; }
+      if(manualLoc.checked && !locationInput.value.trim()){ alert('Please enter location.'); return; }
+      alert('Report submitted!');
+      reportModal.style.display='none';
+      stopCamera(); resetForm();
+    };
+
+    const openAdminBtn = document.getElementById('openAdminModal');
+    const closeAdmin = document.getElementById('closeAdmin');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminError = document.getElementById('adminError');
+
+    openAdminBtn.onclick = () => adminModal.style.display='block';
+    closeAdmin.onclick = () => { adminModal.style.display='none'; adminError.textContent=''; };
+
+    adminLoginBtn.onclick = () => {
+      const username = document.getElementById('adminUsername').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      if(username==="gov_official1" && password==="1234"){
+        adminModal.style.display='none';
+        alert("Admin Login Successful!");
+        window.location.href = "admin.html";
+      } else { adminError.textContent="Invalid username or password!"; }
+    };
+
+    const aboutLink = document.getElementById('aboutLink');
+    const learnLink = document.getElementById('learnLink');
+    const closeAbout = document.getElementById('closeAbout');
+    const closeLearn = document.getElementById('closeLearn');
+
+    aboutLink.onclick = e => { e.preventDefault(); aboutModal.style.display='flex'; };
+    learnLink.onclick = e => { e.preventDefault(); learnModal.style.display='flex'; };
+    closeAbout.onclick = () => aboutModal.style.display='none';
+    closeLearn.onclick = () => learnModal.style.display='none';
+
+    window.onclick = e => {
+      if(e.target === reportModal) { reportModal.style.display='none'; stopCamera(); resetForm(); }
+      if(e.target === adminModal) { adminModal.style.display='none'; adminError.textContent=''; }
+      if(e.target === aboutModal) aboutModal.style.display='none';
+      if(e.target === learnModal) learnModal.style.display='none';
+    };
+  </script>
+</body>
+</html>

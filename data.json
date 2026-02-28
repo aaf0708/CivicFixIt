@@ -1,0 +1,5 @@
+{
+  "pothole":   { "count": 50, "avg_cost": 3200 },
+  "garbage":   { "count": 30, "avg_cost": 1800 },
+  "streetlight": { "count": 40, "avg_cost": 2500 }
+}

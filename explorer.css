@@ -1,0 +1,80 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Roboto, sans-serif; }
+body { background:#f9f9f9; color:#333; }
+header { padding:20px 40px; background:#0072ff; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+header h1 { font-size:1.8rem; }
+header nav a { color:#fff; text-decoration:none; font-weight:500; }
+.container { padding:20px 20px; max-width:1000px; margin:auto; }
+h2 { margin-bottom:15px; }
+.issue-card {
+  background:#fff; padding:15px 20px; margin-bottom:15px; border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:0.3s; display:flex; flex-direction:column;
+}
+.issue-card:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+.issue-category { font-weight:600; color:#0072ff; margin-bottom:5px; }
+.issue-desc { margin:5px 0; }
+.issue-location { font-size:0.9rem; color:#555; }
+.status { font-size:0.8rem; font-weight:600; padding:2px 8px; border-radius:10px; color:#fff; margin-left:8px; }
+.status.open { background:#e74c3c; }
+.status.resolved { background:#27ae60; }
+button.backBtn { padding:8px 16px; border:none; border-radius:8px; background:#0072ff; color:#fff; cursor:pointer; margin-bottom:20px; }
+button.backBtn:hover { background:#005bb5; }
+
+.verifyBtn {
+  display: inline-block;      /* hug content */
+  padding: 2px 6px;           /* small rectangle */
+  font-size: 0.65rem;         /* tiny text */
+  line-height: 1;             /* tight height */
+  border: none;
+  border-radius: 4px;
+  background: #27ae60;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  vertical-align: middle;
+  transition: 0.2s;
+}
+
+.verifyBtn:hover {
+  background: #1e8449;
+}
+
+.modal {
+  display:none;
+  position:fixed;
+  z-index:1000;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content {
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  max-width:500px;
+  width:90%;
+  text-align:center;
+  position:relative;
+}
+
+.modal .close {
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:1.5rem;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.thumbnail {
+  width: 100px;       /* small thumbnail */
+  height: auto;       /* keep aspect ratio */
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  display: block;
+}
